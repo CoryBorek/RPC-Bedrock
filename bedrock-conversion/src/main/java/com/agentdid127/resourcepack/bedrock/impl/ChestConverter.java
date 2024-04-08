@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
 import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
@@ -25,7 +26,8 @@ public class ChestConverter extends Converter {
         convertDoubleChest(chestFolderPath, "normal");
         convertDoubleChest(chestFolderPath, "trapped");
 
-        moveIfExists(chestFolderPath.resolve("normal_double.png"), chestFolderPath.resolve("double_normal.png"));
+        FileUtil.moveIfExists(chestFolderPath.resolve("normal_double.png"),
+                chestFolderPath.resolve("double_normal.png"));
 
         // Normal Chest
         convertNormalChest(chestFolderPath, "normal");
@@ -139,13 +141,5 @@ public class ChestConverter extends Converter {
             imagePath.resolve(name + "_left.png").toFile().delete();
             imagePath.resolve(name + "_right.png").toFile().delete();
         }
-    }
-
-    private void moveIfExists(Path in, Path out) throws IOException {
-        if (!in.toFile().exists())
-            return;
-        if (!out.getParent().toFile().exists())
-            out.toFile().mkdirs();
-        Files.move(in, out);
     }
 }
