@@ -1,13 +1,9 @@
 package com.agentdid127.resourcepack.bedrock.impl;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import javax.imageio.ImageIO;
 
 import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
 import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
@@ -15,7 +11,6 @@ import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
 import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
-import com.agentdid127.resourcepack.library.utilities.Logger;
 
 public class MoveFilesConverter extends Converter {
     public MoveFilesConverter(PackConverter packConverter) {
@@ -299,6 +294,17 @@ public class MoveFilesConverter extends Converter {
                     // . -> invite_pressed?
 
                     // TODO: Buttons?
+                }
+            }
+
+            {
+                Path chestEntityPath = newTexturesPath.resolve("entity/chest".replace("/", File.separator));
+                if (chestEntityPath.toFile().exists()) {
+                    FileUtil.moveIfExists(chestEntityPath.resolve("normal_double.png"),
+                            chestEntityPath.resolve("double_normal.png"));
+                    Files.deleteIfExists(chestEntityPath.resolve("christmas.png"));
+                    Files.deleteIfExists(chestEntityPath.resolve("christmas_left.png"));
+                    Files.deleteIfExists(chestEntityPath.resolve("christmas_right.png"));
                 }
             }
         }

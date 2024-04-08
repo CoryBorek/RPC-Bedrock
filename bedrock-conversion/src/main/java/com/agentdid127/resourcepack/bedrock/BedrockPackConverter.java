@@ -1,7 +1,6 @@
 package com.agentdid127.resourcepack.bedrock;
 
 import com.agentdid127.resourcepack.bedrock.impl.ArmorConverter;
-import com.agentdid127.resourcepack.bedrock.impl.ChestConverter;
 import com.agentdid127.resourcepack.bedrock.impl.EntityConverter;
 import com.agentdid127.resourcepack.bedrock.impl.CarriedConverter;
 import com.agentdid127.resourcepack.bedrock.impl.MoveFilesConverter;
@@ -43,13 +42,13 @@ public class BedrockPackConverter extends PackConverter {
 	}
 
 	protected void converterRunner() {
+		this.registerConverter(new com.agentdid127.resourcepack.backwards.impl.textures.ChestConverter(this));
 		this.registerConverter(new PackMetaConverter(this));
 		this.registerConverter(new PackPngConverter(this));
 		this.registerConverter(new MoveFilesConverter(this));
 		this.registerConverter(new NameConverter(this));
 		this.registerConverter(new CarriedConverter(this));
 		this.registerConverter(new ArmorConverter(this));
-		this.registerConverter(new ChestConverter(this));
 		this.registerConverter(new EntityConverter(this));
 		this.registerConverter(new PurgerConverter(this));
 	}
