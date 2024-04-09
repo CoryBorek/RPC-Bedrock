@@ -26,13 +26,9 @@ public class BedrockPackConverter extends PackConverter {
 	private Path INPUT_DIR;
 
 	public BedrockPackConverter(Path input, boolean minify, boolean debug, PrintStream out) {
-		GsonBuilder gsonBuilder = new GsonBuilder().disableHtmlEscaping();
+		GsonBuilder gsonBuilder = new GsonBuilder().disableHtmlEscaping().setLenient();
 		if (!minify)
 			gsonBuilder.setPrettyPrinting();
-
-		gsonBuilder.disableHtmlEscaping();
-		gsonBuilder.setLenient();
-
 		gson = gsonBuilder.create();
 		DEBUG = debug;
 		Logger.setStream(out);
