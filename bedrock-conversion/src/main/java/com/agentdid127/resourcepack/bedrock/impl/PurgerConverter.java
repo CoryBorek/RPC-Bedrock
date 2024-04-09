@@ -7,6 +7,10 @@ import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
 import com.agentdid127.resourcepack.library.pack.Pack;
 import com.agentdid127.resourcepack.library.utilities.Logger;
+import com.twelvemonkeys.lang.SystemUtil;
+
+import java.nio.file.Files;
+import java.util.Comparator;
 
 public class PurgerConverter extends Converter {
     public PurgerConverter(PackConverter packConverter) {
@@ -15,9 +19,12 @@ public class PurgerConverter extends Converter {
 
     @Override
     public void convert(Pack pack) throws IOException {
-        File[] files = pack.getWorkingPath().toFile().listFiles();
-        for (File file : files) {
-            Logger.log(file.getPath());
-        }
+        Files.walk(pack.getWorkingPath()).sorted(Comparator.reverseOrder()).map(path -> path.toFile()).forEach(file -> {
+            if (!file.isDirectory())
+                return;
+            int file_count = file.listFiles().length;
+            if (file_count == 0)
+                file.delete();
+        });
     }
 }
