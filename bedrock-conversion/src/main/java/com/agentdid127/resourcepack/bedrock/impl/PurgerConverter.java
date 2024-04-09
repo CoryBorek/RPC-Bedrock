@@ -1,13 +1,10 @@
 package com.agentdid127.resourcepack.bedrock.impl;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
 import com.agentdid127.resourcepack.library.pack.Pack;
-import com.agentdid127.resourcepack.library.utilities.Logger;
-import com.twelvemonkeys.lang.SystemUtil;
 
 import java.nio.file.Files;
 import java.util.Comparator;
