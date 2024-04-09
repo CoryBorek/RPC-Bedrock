@@ -1,8 +1,8 @@
 package com.agentdid127.resourcepack.bedrock.impl;
 
-import com.agentdid127.resourcepack.bedrock.Util;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
+import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
