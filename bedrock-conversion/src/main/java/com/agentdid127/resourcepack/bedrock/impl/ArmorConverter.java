@@ -2,7 +2,6 @@ package com.agentdid127.resourcepack.bedrock.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
@@ -62,6 +61,7 @@ public class ArmorConverter extends Converter {
         int defaultWIn = 64, defaultHIn = 32;
         ImageConverter converter = new ImageConverter(defaultWIn, defaultHIn, imagePath);
         converter.store(imagePath, "tga");
-        FileUtil.moveIfExists(imagePath, imagePath.resolveSibling(fileName.substring(0, fileName.length() - 4) + ".tga"));
+        FileUtil.moveIfExists(imagePath,
+                imagePath.resolveSibling(fileName.substring(0, fileName.length() - 4) + ".tga"));
     }
 }

@@ -2,12 +2,10 @@ package com.agentdid127.resourcepack.bedrock.utilities;
 
 import javax.imageio.ImageIO;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.nio.file.Path;
 

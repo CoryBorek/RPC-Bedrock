@@ -1,7 +1,6 @@
 package com.agentdid127.resourcepack.bedrock.impl;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 import com.agentdid127.resourcepack.library.Converter;
