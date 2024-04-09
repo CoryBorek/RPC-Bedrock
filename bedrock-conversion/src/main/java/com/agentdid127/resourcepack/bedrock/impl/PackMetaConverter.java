@@ -52,8 +52,8 @@ public class PackMetaConverter extends Converter {
 			// min_engine_version
 			JsonArray minVersion = new JsonArray();
 			minVersion.add(1);
-			minVersion.add(16);
-			minVersion.add(0);
+			minVersion.add(20);
+			minVersion.add(72);
 			header.add("min_engine_version", minVersion);
 
 			out.add("header", header);
