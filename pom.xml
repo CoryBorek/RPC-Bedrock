@@ -24,10 +24,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.CoryBorek</groupId>
-            <artifactId>resourcepackconverter</artifactId>
-            <version>0f3d3cd9c0</version>
+            <groupId>com.github.agentdid127</groupId>
+            <artifactId>ResourcePackConverter</artifactId>
+            <version>-SNAPSHOT</version>
         </dependency>
+        
         <!-- https://mvnrepository.com/artifact/com.twelvemonkeys.imageio/imageio-tga -->
         <dependency>
             <groupId>com.twelvemonkeys.imageio</groupId>

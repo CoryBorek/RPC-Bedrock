@@ -2,17 +2,21 @@ package com.agentdid127.resourcepack;
 
 import com.agentdid127.resourcepack.bedrock.BedrockPackConverter;
 
+import joptsimple.OptionSet;
+
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Paths;
 
 public class Main {
-
-
     public static void main(String[] args) throws IOException {
-        PrintStream out = System.out;
-        boolean minify = false;
+        OptionSet optionSet = BOptions.PARSER.parse(args);
+        if (optionSet.has(Options.HELP)) {
+            Options.PARSER.printHelpOn(System.out);
+            return;
+        }
 
-        new BedrockPackConverter(Paths.get("./"), true, minify, out).runDir();
+        boolean minify = optionSet.has(Options.MINIFY);
+        PrintStream out = System.out;
+        new BedrockPackConverter(optionSet.valueOf(BOptions.INPUT_DIR), minify, true, out).runDir();
     }
-    }
+}
