@@ -23,10 +23,9 @@ public class NameConverter extends Converter {
 		Gson gson = packConverter.getGson();
 		// TODO: BedrockMapping shouldn't exist, make RPC Mapping Class more open &
 		// configurable
-		String namesPath = "/names.json";
-		blockMapping = new BedrockMapping(gson, namesPath, "blocks");
-		blockTGAMapping = new BedrockMapping(gson, namesPath, "tga");
-		itemMapping = new BedrockMapping(gson, namesPath, "items");
+		blockMapping = new BedrockMapping(gson, "names", "blocks");
+		blockTGAMapping = new BedrockMapping(gson, "names", "tga");
+		itemMapping = new BedrockMapping(gson, "names", "items");
 	}
 
 	@Override

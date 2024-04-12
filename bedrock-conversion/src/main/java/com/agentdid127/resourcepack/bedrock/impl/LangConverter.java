@@ -54,15 +54,10 @@ public class LangConverter extends Converter {
     private String remapFileName(String fileName) {
         if (!fileName.contains("_"))
             return fileName;
-
-        // TODO: use json bruh
-        for (String[] map : new String[][] {
-                new String[] { "en_us", "en_US" }
-        }) {
-            if (map[0].equals(fileName))
-                return map[1];
-        }
-
-        return fileName;
+        if (fileName.length() < 4)
+            return fileName;
+        String language = fileName.substring(0, 2);
+        String region = fileName.substring(0, 2).toLowerCase();
+        return language + "_" + region;
     }
 }

@@ -19,7 +19,7 @@ public class BedrockMapping {
     }
 
     protected void load(Gson gson, String path, String key) {
-        JsonObject object = JsonUtil.readJsonResource(gson, path.replace("/", File.separator))
+        JsonObject object = JsonUtil.readJsonResource(gson, "/" + path + ".json")
                 .getAsJsonObject(key);
         if (object == null)
             return;
