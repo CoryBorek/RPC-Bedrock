@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
-import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
+import com.agentdid127.resourcepack.library.utilities.ImageConverter;
+import com.agentdid127.resourcepack.library.utilities.Util;
 
 public class CarriedConverter extends Converter {
     public CarriedConverter(PackConverter packConverter) {
@@ -69,27 +70,11 @@ public class CarriedConverter extends Converter {
                         "leather_leggings.tga", true);
             }
 
-            // Path leatherHorseArmor = itemsFolderPath.resolve("");
-
             Path leatherBoots = itemsFolderPath.resolve("leather_boots.png");
             if (leatherBoots.toFile().exists()) {
                 background(itemsFolderPath, leatherBoots, itemsFolderPath.resolve("leather_boots_overlay.png"), 3,
                         "leather_boots.tga", true);
             }
-        }
-
-        // Bit Depth Converter (i should probably rename this converter to something
-        // like idk FixerConverter or something)
-        String[] bitdepthBlocks = new String[] { "bedrock", "grass_top", "observer_top", "smooth_stone", "stone",
-                "stone_slab_top" };
-        for (String blockName : bitdepthBlocks) {
-            Path blockPath = blocksFolderPath.resolve(blockName + ".png");
-            if (!blockPath.toFile().exists())
-                continue;
-            ImageConverter converter = new ImageConverter(16, 16, blockPath);
-            converter.newImage(16, 16, BufferedImage.TYPE_4BYTE_ABGR);
-            converter.subImage(0, 0, 16, 16);
-            converter.store();
         }
     }
 
@@ -103,10 +88,11 @@ public class CarriedConverter extends Converter {
         if (background.toFile().exists())
             frontImage.backgroundImage(background, alpha);
         else {
-            // todo: use vanilla *.png
+            BufferedImage background_internal = Util.readImageResource("/background/" + background.getFileName());
+            frontImage.backgroundImage(background_internal, alpha);
         }
         frontImage.store(front, "tga");
-        Util.renameFile(front, outName);
+        FileUtil.renameFile(front, outName);
         if (shouldDeleteBackgroundImage)
             background.toFile().delete();
     }

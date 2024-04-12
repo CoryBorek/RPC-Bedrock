@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
-import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
+import com.agentdid127.resourcepack.library.utilities.ImageConverter;
 
 public class EntityConverter extends Converter {
     public EntityConverter(PackConverter packConverter) {
@@ -52,6 +52,12 @@ public class EntityConverter extends Converter {
             if (bedsPath.toFile().exists())
                 convert_beds(bedsPath);
         }
+
+        // Convert Zombies
+
+        // Convert Conduit
+
+        // Other
     }
 
     private void convert_beds(Path bedsPath) throws IOException {

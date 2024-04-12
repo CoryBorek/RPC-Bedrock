@@ -2,8 +2,8 @@ package com.agentdid127.resourcepack.bedrock.impl;
 
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
-import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.JsonUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -27,7 +27,7 @@ public class PackMetaConverter extends Converter {
 
 		Path manifestPath = pack.getWorkingPath().resolve("manifest.json");
 
-		JsonObject json = Util.readJson(packConverter.getGson(), packMetaPath);
+		JsonObject json = JsonUtil.readJson(packConverter.getGson(), packMetaPath);
 		JsonObject out = new JsonObject();
 
 		{

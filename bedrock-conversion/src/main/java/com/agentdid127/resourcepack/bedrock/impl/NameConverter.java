@@ -1,56 +1,32 @@
 package com.agentdid127.resourcepack.bedrock.impl;
 
-import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
-import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
+import com.agentdid127.resourcepack.bedrock.utilities.BedrockMapping;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
-import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
+import com.agentdid127.resourcepack.library.utilities.ImageConverter;
 import com.agentdid127.resourcepack.library.utilities.Logger;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 public class NameConverter extends Converter {
-	protected class Mapping {
-		protected final Map<String, String> mapping = new HashMap<>();
-
-		public Mapping(String path, String key) {
-			load(path, key);
-		}
-
-		public Mapping(String key) {
-			load("names", key);
-		}
-
-		protected void load(String path, String key) {
-			JsonObject object = Util.readJsonResource(packConverter.getGson(), "/" + path + ".json")
-					.getAsJsonObject(key);
-			if (object == null)
-				return;
-			for (Map.Entry<String, JsonElement> entry : object.entrySet())
-				this.mapping.put(entry.getKey(), entry.getValue().getAsString());
-		}
-
-		/**
-		 * @return remapped or in if not present
-		 */
-		public String remap(String in) {
-			return mapping.getOrDefault(in, in);
-		}
-	}
-
-	protected Mapping BlockMapping = new Mapping("blocks");
-	protected Mapping BlockTGAMapping = new Mapping("tga");
-	protected Mapping ItemMapping = new Mapping("items");
+	protected BedrockMapping blockMapping;
+	protected BedrockMapping blockTGAMapping;
+	protected BedrockMapping itemMapping;
 
 	public NameConverter(PackConverter packConverter) {
 		super(packConverter);
+		Gson gson = packConverter.getGson();
+		// TODO: BedrockMapping shouldn't exist, make RPC Mapping Class more open &
+		// configurable
+		String namesPath = "/names.json";
+		blockMapping = new BedrockMapping(gson, namesPath, "blocks");
+		blockTGAMapping = new BedrockMapping(gson, namesPath, "tga");
+		itemMapping = new BedrockMapping(gson, namesPath, "items");
 	}
 
 	@Override
@@ -63,8 +39,8 @@ public class NameConverter extends Converter {
 
 		Path blocksFolderPath = texturesPath.resolve("blocks");
 		if (blocksFolderPath.toFile().exists()) {
-			renameAll(BlockMapping, ".png", blocksFolderPath);
-			renameAll(BlockTGAMapping, ".png", ".tga", blocksFolderPath);
+			renameAll(blockMapping, ".png", blocksFolderPath);
+			renameAll(blockTGAMapping, ".png", ".tga", blocksFolderPath);
 			// renameAll(blockMapping, ".png.mcmeta", blocksFolderPath);
 			// TODO ^: Map mcmeta files for flipbook_textures.json
 
@@ -75,7 +51,7 @@ public class NameConverter extends Converter {
 
 		Path itemsFolderPath = texturesPath.resolve("items");
 		if (itemsFolderPath.toFile().exists()) {
-			renameAll(ItemMapping, ".png", itemsFolderPath);
+			renameAll(itemMapping, ".png", itemsFolderPath);
 			// renameAll(itemMapping, ".png.mcmeta", itemsFolderPath);
 			// TODO ^: Map mcmeta files for flipbook_textures.json
 			move_candles(itemsFolderPath, false);
@@ -176,7 +152,8 @@ public class NameConverter extends Converter {
 		}
 	}
 
-	protected void renameAll(Mapping mapping, String extension, String newExtension, Path path) throws IOException {
+	protected void renameAll(BedrockMapping mapping, String extension, String newExtension, Path path)
+			throws IOException {
 		Files.list(path).forEach(path1 -> {
 			if (!path1.toString().endsWith(extension))
 				return;
@@ -192,7 +169,7 @@ public class NameConverter extends Converter {
 						ImageConverter i = new ImageConverter(16, 16, path1);
 						i.store(path1, "tga");
 
-						Boolean ret = Util.renameFile(path1, newName + newExtension);
+						Boolean ret = FileUtil.renameFile(path1, newName + newExtension);
 						if (ret == null)
 							return;
 						if (ret && PackConverter.DEBUG) {
@@ -203,7 +180,7 @@ public class NameConverter extends Converter {
 									+ newName + newExtension);
 						}
 					} else {
-						Boolean ret = Util.renameFile(path1, newName + newExtension);
+						Boolean ret = FileUtil.renameFile(path1, newName + newExtension);
 						if (ret == null)
 							return;
 						if (ret && PackConverter.DEBUG) {
@@ -223,7 +200,7 @@ public class NameConverter extends Converter {
 		});
 	}
 
-	protected void renameAll(Mapping mapping, String extension, Path path) throws IOException {
+	protected void renameAll(BedrockMapping mapping, String extension, Path path) throws IOException {
 		Files.list(path).forEach(path1 -> {
 			if (!path1.toString().endsWith(extension))
 				return;
@@ -235,7 +212,7 @@ public class NameConverter extends Converter {
 			if (newName == null || newName.equals(baseName))
 				return;
 
-			Boolean ret = Util.renameFile(path1, newName + extension);
+			Boolean ret = FileUtil.renameFile(path1, newName + extension);
 			if (ret == null)
 				return;
 			if (ret && PackConverter.DEBUG) {

@@ -1,8 +1,9 @@
 package com.agentdid127.resourcepack.bedrock.pack;
 
-import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
 import com.agentdid127.resourcepack.library.utilities.Logger;
+import com.agentdid127.resourcepack.library.utilities.Util;
 
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -64,14 +65,14 @@ public class BPack extends Pack {
 				ZipParameters parameters = new ZipParameters();
 				parameters.setIncludeRootFolder(false);
 				zipFile.createSplitZipFileFromFolder(pack.getWorkingPath().toFile(), parameters, false, 65536);
-				Util.renameFile(getConvertedZipPath(), pack.getWorkingPath().getFileName() + ".mcpack");
+				FileUtil.renameFile(getConvertedZipPath(), pack.getWorkingPath().getFileName() + ".mcpack");
 				zipFile.close();
 			} catch (ZipException e) {
 				Util.propagate(e);
 			}
 
 			Logger.log("  Deleting working directory");
-			Util.deleteDirectoryAndContents(pack.getWorkingPath());
+			FileUtil.deleteDirectoryAndContents(pack.getWorkingPath());
 		}
 
 		@Override
