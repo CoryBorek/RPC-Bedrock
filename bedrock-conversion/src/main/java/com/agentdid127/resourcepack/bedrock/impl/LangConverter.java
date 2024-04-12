@@ -54,10 +54,10 @@ public class LangConverter extends Converter {
     private String remapFileName(String fileName) {
         if (!fileName.contains("_"))
             return fileName;
-        if (fileName.length() < 4)
+        if (fileName.length() < 5)
             return fileName;
         String language = fileName.substring(0, 2);
-        String region = fileName.substring(0, 2).toLowerCase();
+        String region = fileName.substring(3, 5).toUpperCase();
         return language + "_" + region;
     }
 }
