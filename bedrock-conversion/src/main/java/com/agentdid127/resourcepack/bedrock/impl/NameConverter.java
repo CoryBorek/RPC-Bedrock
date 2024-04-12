@@ -40,9 +40,7 @@ public class NameConverter extends Converter {
 		if (blocksFolderPath.toFile().exists()) {
 			renameAll(blockMapping, ".png", blocksFolderPath);
 			renameAll(blockTGAMapping, ".png", ".tga", blocksFolderPath);
-			// renameAll(blockMapping, ".png.mcmeta", blocksFolderPath);
-			// TODO ^: Map mcmeta files for flipbook_textures.json
-
+			renameAll(blockMapping, ".png.mcmeta", blocksFolderPath);
 			move_candles(blocksFolderPath, true);
 			move_deepslate(blocksFolderPath);
 			move_huge_fungus(blocksFolderPath);
@@ -51,8 +49,7 @@ public class NameConverter extends Converter {
 		Path itemsFolderPath = texturesPath.resolve("items");
 		if (itemsFolderPath.toFile().exists()) {
 			renameAll(itemMapping, ".png", itemsFolderPath);
-			// renameAll(itemMapping, ".png.mcmeta", itemsFolderPath);
-			// TODO ^: Map mcmeta files for flipbook_textures.json
+			renameAll(itemMapping, ".png.mcmeta", itemsFolderPath);
 			move_candles(itemsFolderPath, false);
 		}
 	}

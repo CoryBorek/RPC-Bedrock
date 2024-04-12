@@ -3,6 +3,7 @@ package com.agentdid127.resourcepack.bedrock;
 import com.agentdid127.resourcepack.bedrock.impl.ArmorConverter;
 import com.agentdid127.resourcepack.bedrock.impl.BitDepthConverter;
 import com.agentdid127.resourcepack.bedrock.impl.EntityConverter;
+import com.agentdid127.resourcepack.bedrock.impl.FlipBookAtlasConverter;
 import com.agentdid127.resourcepack.bedrock.impl.LangConverter;
 import com.agentdid127.resourcepack.bedrock.impl.CarriedConverter;
 import com.agentdid127.resourcepack.bedrock.impl.MoveFilesConverter;
@@ -47,6 +48,7 @@ public class BedrockPackConverter extends PackConverter {
 		this.registerConverter(new MoveFilesConverter(this));
 		this.registerConverter(new BitDepthConverter(this));
 		this.registerConverter(new NameConverter(this));
+		this.registerConverter(new FlipBookAtlasConverter(this));
 		this.registerConverter(new LangConverter(this));
 		this.registerConverter(new SplashesConverter(this));
 		this.registerConverter(new CarriedConverter(this));
