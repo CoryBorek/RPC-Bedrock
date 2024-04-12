@@ -9,7 +9,6 @@ import com.agentdid127.resourcepack.bedrock.impl.CarriedConverter;
 import com.agentdid127.resourcepack.bedrock.impl.MoveFilesConverter;
 import com.agentdid127.resourcepack.bedrock.impl.PackMetaConverter;
 import com.agentdid127.resourcepack.bedrock.impl.NameConverter;
-import com.agentdid127.resourcepack.bedrock.impl.PackPngConverter;
 import com.agentdid127.resourcepack.bedrock.impl.PurgerConverter;
 import com.agentdid127.resourcepack.bedrock.impl.SplashesConverter;
 import com.agentdid127.resourcepack.bedrock.pack.BPack;
@@ -44,7 +43,6 @@ public class BedrockPackConverter extends PackConverter {
 	protected void converterRunner() {
 		this.registerConverter(new com.agentdid127.resourcepack.backwards.impl.textures.ChestConverter(this));
 		this.registerConverter(new PackMetaConverter(this));
-		this.registerConverter(new PackPngConverter(this));
 		this.registerConverter(new MoveFilesConverter(this));
 		this.registerConverter(new BitDepthConverter(this));
 		this.registerConverter(new NameConverter(this));

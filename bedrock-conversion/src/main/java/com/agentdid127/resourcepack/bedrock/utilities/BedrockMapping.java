@@ -1,6 +1,5 @@
 package com.agentdid127.resourcepack.bedrock.utilities;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
