@@ -14,9 +14,9 @@ public class Main {
             Options.PARSER.printHelpOn(System.out);
             return;
         }
-
         boolean minify = optionSet.has(Options.MINIFY);
+        boolean debug = optionSet.has(Options.DEBUG);
         PrintStream out = System.out;
-        new BedrockPackConverter(optionSet.valueOf(BOptions.INPUT_DIR), minify, true, out).runDir();
+        new BedrockPackConverter(optionSet.valueOf(BOptions.INPUT_DIR), minify, debug, out).runDir();
     }
 }
