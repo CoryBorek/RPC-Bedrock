@@ -27,54 +27,45 @@ public class CarriedConverter extends Converter {
         Path blocksFolderPath = texturesPath.resolve("blocks");
         if (blocksFolderPath.toFile().exists()) {
             Path lilyPath = blocksFolderPath.resolve("waterlily.png");
-            if (lilyPath.toFile().exists()) {
-                Path carriedLilyPath = blocksFolderPath.resolve("carried_waterlily.png");
-                colorize(lilyPath, carriedLilyPath, new Color(101, 155, 54));
-            }
+            if (lilyPath.toFile().exists())
+                colorize(lilyPath, blocksFolderPath.resolve("carried_waterlily.png"), new Color(101, 155, 54));
 
             Path vinePath = blocksFolderPath.resolve("vine.png");
-            if (vinePath.toFile().exists()) {
-                Path carriedVinePath = blocksFolderPath.resolve("vine_carried.png");
-                colorize(vinePath, carriedVinePath, new Color(101, 155, 54));
-            }
+            if (vinePath.toFile().exists())
+                colorize(vinePath, blocksFolderPath.resolve("vine_carried.png"), new Color(101, 155, 54));
 
             Path grassBlockSideOverlay = blocksFolderPath.resolve("grass_block_side_overlay.png");
-            if (grassBlockSideOverlay.toFile().exists()) {
+            if (grassBlockSideOverlay.toFile().exists())
                 background(blocksFolderPath, grassBlockSideOverlay, blocksFolderPath.resolve("grass_side_carried.png"),
                         0,
                         "grass_side.tga", false);
-            }
         }
 
         Path itemsFolderPath = texturesPath.resolve("items");
         if (itemsFolderPath.toFile().exists()) {
             Path fireworksChargePath = itemsFolderPath.resolve("fireworks_charge.png");
-            if (fireworksChargePath.toFile().exists()) {
+            if (fireworksChargePath.toFile().exists())
                 background(itemsFolderPath, fireworksChargePath, itemsFolderPath.resolve("firework_star.png"), 4,
                         "fireworks_charge.tga", true);
-            }
 
             Path leatherHelmet = itemsFolderPath.resolve("leather_helmet.png");
-            if (leatherHelmet.toFile().exists()) {
+            if (leatherHelmet.toFile().exists())
                 background(itemsFolderPath, leatherHelmet, itemsFolderPath.resolve("leather_helmet_overlay.png"), 3,
                         "leather_helmet.tga", true);
-            }
 
             Path leatherChestplate = itemsFolderPath.resolve("leather_chestplate_overlay.png");
             if (leatherChestplate.toFile().exists())
                 leatherChestplate.toFile().delete();
 
             Path leatherLeggings = itemsFolderPath.resolve("leather_leggings.png");
-            if (leatherLeggings.toFile().exists()) {
+            if (leatherLeggings.toFile().exists())
                 background(itemsFolderPath, leatherLeggings, itemsFolderPath.resolve("leather_leggings_overlay.png"), 3,
                         "leather_leggings.tga", true);
-            }
 
             Path leatherBoots = itemsFolderPath.resolve("leather_boots.png");
-            if (leatherBoots.toFile().exists()) {
+            if (leatherBoots.toFile().exists())
                 background(itemsFolderPath, leatherBoots, itemsFolderPath.resolve("leather_boots_overlay.png"), 3,
                         "leather_boots.tga", true);
-            }
         }
     }
 

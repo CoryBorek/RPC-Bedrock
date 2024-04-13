@@ -59,6 +59,8 @@ public class MoveFilesConverter extends Converter {
 				Path blockPath = newTexturesPath.resolve("block");
 				FileUtil.moveIfExists(blockPath, newTexturesPath.resolve("blocks"));
 
+				FileUtil.copyIfExists(blockPath.resolve("fire_1.png"), newTexturesPath.resolve("flame_atlas.png"));
+
 				// Move (item -> items) Path
 				Path itemPath = newTexturesPath.resolve("item");
 				FileUtil.moveIfExists(itemPath, newTexturesPath.resolve("items"));
@@ -170,6 +172,9 @@ public class MoveFilesConverter extends Converter {
 				if (spritesPath.toFile().exists() && !uiPath.toFile().exists())
 					uiPath.toFile().mkdirs();
 
+				FileUtil.moveIfExists(guiPath.resolve("light_dirt_background.png"), uiPath.resolve("bg32.png"));
+				FileUtil.moveIfExists(guiPath.resolve("options_background.png"), uiPath.resolve("background.png"));
+
 				FileUtil.moveIfExists(
 						guiPath.resolve("title/minecraft.png".replace("/", File.separator)),
 						uiPath.resolve("title.png"));
@@ -201,8 +206,6 @@ public class MoveFilesConverter extends Converter {
 								uiPath.resolve("horse_heart.png"));
 						FileUtil.moveIfExists(heartFolderPath.resolve("vehicle_half.png"),
 								uiPath.resolve("horse_heart_half.png"));
-						// . -> horse_heart_flash
-						// . -> horse_heart_flash_half
 						FileUtil.moveIfExists(heartFolderPath.resolve("poisoned_full.png"),
 								uiPath.resolve("poison_heart.png"));
 						FileUtil.moveIfExists(heartFolderPath.resolve("poisoned_half.png"),
@@ -283,16 +286,14 @@ public class MoveFilesConverter extends Converter {
 					Path experienceBarBackgroundNew = uiPath.resolve("experiencebarempty.png");
 					if (experienceBarBackgroundOld.toFile().exists()) {
 						FileUtil.moveIfExists(experienceBarBackgroundOld, experienceBarBackgroundNew);
-						JsonUtil.writeJson(packConverter.getGson(),
-								uiPath.resolve("experiencebarempty.json"), xpJson);
+						JsonUtil.writeJson(packConverter.getGson(), uiPath.resolve("experiencebarempty.json"), xpJson);
 					}
 
 					Path experienceBarProgressOld = hudPath.resolve("experience_bar_progress.png");
 					Path experienceBarProgressNew = uiPath.resolve("experiencebarfull.png");
 					if (experienceBarProgressOld.toFile().exists()) {
 						FileUtil.moveIfExists(experienceBarProgressOld, experienceBarProgressNew);
-						JsonUtil.writeJson(packConverter.getGson(),
-								uiPath.resolve("experiencebarfull.json"), xpJson);
+						JsonUtil.writeJson(packConverter.getGson(), uiPath.resolve("experiencebarfull.json"), xpJson);
 					}
 
 					if (experienceBarBackgroundNew.toFile().exists() || experienceBarProgressNew.toFile().exists()) {
@@ -301,7 +302,7 @@ public class MoveFilesConverter extends Converter {
 						ImageIO.write(image, "png", uiPath.resolve("experiencenub.png").toFile());
 					}
 
-					// Ping Bars?
+					// TODO: Ping Bars?
 				}
 
 				// HUD
@@ -310,10 +311,8 @@ public class MoveFilesConverter extends Converter {
 					if (hotbarPath.toFile().exists()) {
 						int hotbar_width = 182;
 						int hotbar_height = 22;
-						ImageConverter hotbar = new ImageConverter(hotbar_width, hotbar_height,
-								hotbarPath);
-						hotbar.saveSlice(0, 0, 1, hotbar_height,
-								uiPath.resolve("hotbar_start_cap.png"));
+						ImageConverter hotbar = new ImageConverter(hotbar_width, hotbar_height, hotbarPath);
+						hotbar.saveSlice(0, 0, 1, hotbar_height, uiPath.resolve("hotbar_start_cap.png"));
 
 						int hotbar_slot_width = 20;
 						for (int i = 0; i < 9; ++i) {
@@ -322,8 +321,7 @@ public class MoveFilesConverter extends Converter {
 									uiPath.resolve("hotbar_" + i + ".png"));
 						}
 
-						hotbar.saveSlice(hotbar_width - 1, 0, 1, hotbar_height,
-								uiPath.resolve("hotbar_end_cap.png"));
+						hotbar.saveSlice(hotbar_width - 1, 0, 1, hotbar_height, uiPath.resolve("hotbar_end_cap.png"));
 
 						JsonObject hotbarCapJson = packConverter.getGson()
 								.fromJson("{\"nineslice_size\":[0,0],\"base_size\":[1,22]}",
@@ -348,10 +346,81 @@ public class MoveFilesConverter extends Converter {
 						hotbarSelectionPath.toFile().delete();
 					}
 
-					// . -> invite_hover?
-					// . -> invite_pressed?
+					// TODO?: . -> invite_hover?
+					// TODO?: . -> invite_pressed?
 
-					// TODO: Buttons?
+					// TODO?: Buttons
+				}
+
+				/* Other (Container/ETC) */
+				// Recipe Book
+				{
+					Path recipeBookPath = spritesPath.resolve("recipe_book");
+					FileUtil.moveIfExists(recipeBookPath.resolve("filter_disabled.png"),
+							uiPath.resolve("craft_toggle_off.png"));
+					FileUtil.moveIfExists(recipeBookPath.resolve("filter_disabled_highlighted.png"),
+							uiPath.resolve("craft_toggle_off_hover.png"));
+					FileUtil.moveIfExists(recipeBookPath.resolve("filter_enabled.png"),
+							uiPath.resolve("craft_toggle_on.png"));
+					FileUtil.moveIfExists(recipeBookPath.resolve("filter_enabled_highlighted.png"),
+							uiPath.resolve("craft_toggle_on_hover.png"));
+				}
+
+				// Containers
+				{
+					Path containerPath = spritesPath.resolve("container");
+					if (containerPath.toFile().exists()) {
+						// TODO: Anvil
+
+						// Beacon
+						Path beaconPath = containerPath.resolve("beacon");
+						FileUtil.moveIfExists(beaconPath.resolve("button.png"),
+								uiPath.resolve("beacon_button_default.png"));
+						FileUtil.moveIfExists(beaconPath.resolve("button_disabled.png"),
+								uiPath.resolve("beacon_button_locked.png"));
+						FileUtil.moveIfExists(beaconPath.resolve("button_highlighted.png"),
+								uiPath.resolve("beacon_button_hover.png"));
+						FileUtil.moveIfExists(beaconPath.resolve("button_selected.png"),
+								uiPath.resolve("beacon_button_pressed.png"));
+
+						// TODO: Blast Furnace
+
+						// TODO: Brewing Stand
+
+						// TODO: Cartography Table
+
+						// TODO: Crafter
+
+						// TODO: Crafting Table
+
+						// TODO: Dispenser
+
+						// TODO: Enchanting Table
+
+						// TODO: Furnace
+
+						// TODO: generic_54
+
+						// TODO: Grindstone
+
+						// TODO: Hopper
+
+						// TODO: Horse
+
+						// TODO: Inventory
+
+						// TODO: Loom
+
+						// TODO: Shulker Box
+
+						// TODO: Smithing
+
+						// TODO: Smoker
+
+						// TODO: Stonecutter
+
+						// TODO: Villager
+					}
 				}
 			}
 

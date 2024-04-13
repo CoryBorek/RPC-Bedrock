@@ -19,11 +19,9 @@ public class EnchantGlintConverter extends Converter {
         Path miscPath = pack.getWorkingPath().resolve("textures/misc".replace("/", File.separator));
         if (!miscPath.toFile().exists())
             return;
-
         Path glintPath = miscPath.resolve("enchanted_item_glint.png");
         if (!glintPath.toFile().exists())
             return;
-
         ImageConverter converter = new ImageConverter(null, null, glintPath);
         converter.newImage(converter.getWidth(), converter.getHeight());
         converter.grayscale();

@@ -14,9 +14,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class NameConverter extends Converter {
-	protected BedrockMapping blockMapping;
-	protected BedrockMapping blockTGAMapping;
-	protected BedrockMapping itemMapping;
+	private BedrockMapping blockMapping;
+	private BedrockMapping blockTGAMapping;
+	private BedrockMapping itemMapping;
 
 	public NameConverter(PackConverter packConverter) {
 		super(packConverter);
@@ -56,7 +56,7 @@ public class NameConverter extends Converter {
 
 	private void move_candles(Path sourcePath, boolean has_lit) throws IOException {
 		Path candlesPath = sourcePath.resolve("candles");
-		String[] candlePaths = new String[] {
+		for (String name : new String[] {
 				"black_candle",
 				"blue_candle",
 				"brown_candle",
@@ -74,8 +74,7 @@ public class NameConverter extends Converter {
 				"red_candle",
 				"white_candle",
 				"yellow_candle"
-		};
-		for (String name : candlePaths) {
+		}) {
 			String candleName = name + ".png";
 			Path candlePath = sourcePath.resolve(candleName);
 			if (candlePath.toFile().exists() && !candlesPath.toFile().exists())
@@ -91,7 +90,7 @@ public class NameConverter extends Converter {
 
 	private void move_deepslate(Path sourcePath) throws IOException {
 		Path deepslateFolderPath = sourcePath.resolve("deepslate");
-		String[] deepslatePaths = new String[] {
+		for (String name : new String[] {
 				"chiseled_deepslate",
 				"cobbled_deepslate",
 				"cracked_deepslate_bricks",
@@ -109,8 +108,7 @@ public class NameConverter extends Converter {
 				"deepslate_tiles",
 				"deepslate_top",
 				"polished_deepslate"
-		};
-		for (String name : deepslatePaths) {
+		}) {
 			String deepslateName = name + ".png";
 			Path deepslatePath = sourcePath.resolve(deepslateName);
 			if (deepslatePath.toFile().exists() && !deepslateFolderPath.toFile().exists())
@@ -121,7 +119,7 @@ public class NameConverter extends Converter {
 
 	private void move_huge_fungus(Path sourcePath) throws IOException {
 		Path hugeFungusFolderPath = sourcePath.resolve("huge_fungus");
-		String[] hugeFungusPaths = new String[] {
+		for (String name : new String[] {
 				"crimson_door_lower",
 				"crimson_door_top",
 				"crimson_log_side",
@@ -138,8 +136,7 @@ public class NameConverter extends Converter {
 				"warped_stem_side",
 				"warped_stem_top",
 				"warped_trapdoor"
-		};
-		for (String name : hugeFungusPaths) {
+		}) {
 			String hugeFungusName = name + ".png";
 			Path hugeFungusPath = sourcePath.resolve(hugeFungusName);
 			if (hugeFungusPath.toFile().exists() && !hugeFungusFolderPath.toFile().exists())
@@ -148,55 +145,8 @@ public class NameConverter extends Converter {
 		}
 	}
 
-	protected void renameAll(BedrockMapping mapping, String extension, String newExtension, Path path)
+	private void renameAll(BedrockMapping mapping, String extension, String newExtension, Path path)
 			throws IOException {
-		Files.list(path).forEach(path1 -> {
-			if (!path1.toString().endsWith(extension))
-				return;
-
-			String baseName = path1.getFileName().toString().substring(0,
-					path1.getFileName().toString().length() - extension.length());
-
-			String newName = mapping.remap(baseName);
-			if (newName != null && !newName.equals(baseName)) {
-				try {
-					System.out.println(baseName + "->" + newName + ", " + extension + "->" + newExtension);
-					if (newExtension.equals(".tga")) {
-						ImageConverter i = new ImageConverter(16, 16, path1);
-						i.store(path1, "tga");
-
-						Boolean ret = FileUtil.renameFile(path1, newName + newExtension);
-						if (ret == null)
-							return;
-						if (ret && PackConverter.DEBUG) {
-							Logger.log(
-									"      Renamed: " + path1.getFileName().toString() + "->" + newName + newExtension);
-						} else if (!ret) {
-							Logger.log("      Failed to Rename: " + path1.getFileName().toString() + "->"
-									+ newName + newExtension);
-						}
-					} else {
-						Boolean ret = FileUtil.renameFile(path1, newName + newExtension);
-						if (ret == null)
-							return;
-						if (ret && PackConverter.DEBUG) {
-							Logger.log(
-									"      Renamed: " + path1.getFileName().toString() + "->" + newName + newExtension);
-						} else if (!ret) {
-							Logger.log("      Failed to Rename: " + path1.getFileName().toString() + "->"
-									+ newName + newExtension);
-						}
-					}
-				} catch (IOException e) {
-					Logger.log("      Failed to Rename: " + path1.getFileName().toString() + "->" + newName
-							+ newExtension);
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	protected void renameAll(BedrockMapping mapping, String extension, Path path) throws IOException {
 		Files.list(path).forEach(path1 -> {
 			if (!path1.toString().endsWith(extension))
 				return;
@@ -208,15 +158,30 @@ public class NameConverter extends Converter {
 			if (newName == null || newName.equals(baseName))
 				return;
 
-			Boolean ret = FileUtil.renameFile(path1, newName + extension);
+			if (PackConverter.DEBUG)
+				System.out.println(baseName + extension + " -> " + newName + newExtension);
+
+			if (newExtension.equals(".tga")) {
+				try {
+					new ImageConverter(16, 16, path1).store(path1, "tga");
+				} catch (IOException e) {
+					Logger.log("Failed to convert to TGA format: " + path1.getFileName().toString() + "->" + newName
+							+ newExtension);
+					e.printStackTrace();
+				}
+			}
+
+			Boolean ret = FileUtil.renameFile(path1, newName + newExtension);
 			if (ret == null)
 				return;
-			if (ret && PackConverter.DEBUG) {
-				Logger.log("      Renamed: " + path1.getFileName().toString() + "->" + newName + extension);
-			} else if (!ret) {
-				Logger.log(
-						"      Failed to Rename: " + path1.getFileName().toString() + "->" + newName + extension);
-			}
+			if (ret && PackConverter.DEBUG)
+				Logger.log("Renamed: " + path1.getFileName().toString() + "->" + newName + extension);
+			else if (!ret)
+				Logger.log("Failed to rename: " + path1.getFileName().toString() + "->" + newName + extension);
 		});
+	}
+
+	private void renameAll(BedrockMapping mapping, String extension, Path path) throws IOException {
+		renameAll(mapping, extension, extension, path);
 	}
 }
