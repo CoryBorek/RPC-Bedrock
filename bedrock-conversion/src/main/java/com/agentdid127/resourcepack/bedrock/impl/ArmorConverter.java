@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
-import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
+import com.agentdid127.resourcepack.library.utilities.ImageConverter;
 
 public class ArmorConverter extends Converter {
     public ArmorConverter(PackConverter packConverter) {

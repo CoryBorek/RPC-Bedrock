@@ -16,12 +16,14 @@ public class PurgerConverter extends Converter {
 
     @Override
     public void convert(Pack pack) throws IOException {
-        Files.walk(pack.getWorkingPath()).sorted(Comparator.reverseOrder()).map(path -> path.toFile()).forEach(file -> {
-            if (!file.isDirectory())
-                return;
-            int file_count = file.listFiles().length;
-            if (file_count == 0)
-                file.delete();
-        });
+        Files.walk(pack.getWorkingPath())
+                .sorted(Comparator.reverseOrder())
+                .map(path -> path.toFile()).forEach(file -> {
+                    if (!file.isDirectory())
+                        return;
+                    int file_count = file.listFiles().length;
+                    if (file_count == 0)
+                        file.delete();
+                });
     }
 }

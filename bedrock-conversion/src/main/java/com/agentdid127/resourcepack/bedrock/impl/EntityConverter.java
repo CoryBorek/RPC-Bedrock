@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.agentdid127.resourcepack.bedrock.utilities.FileUtil;
-import com.agentdid127.resourcepack.bedrock.utilities.ImageConverter;
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
+import com.agentdid127.resourcepack.library.utilities.ImageConverter;
 
 public class EntityConverter extends Converter {
     public EntityConverter(PackConverter packConverter) {
@@ -17,8 +17,7 @@ public class EntityConverter extends Converter {
 
     @Override
     public void convert(Pack pack) throws IOException {
-        Path texturesPath = pack.getWorkingPath().resolve("textures");
-        Path entityPath = texturesPath.resolve("entity");
+        Path entityPath = pack.getWorkingPath().resolve("textures/entity".replace("/", File.separator));
         if (!entityPath.toFile().exists())
             return;
 
@@ -52,30 +51,34 @@ public class EntityConverter extends Converter {
             if (bedsPath.toFile().exists())
                 convert_beds(bedsPath);
         }
+
+        // Convert Zombies
+
+        // Convert Conduit
+
+        // Other
     }
 
     private void convert_beds(Path bedsPath) throws IOException {
-        String[] bedNames = new String[] {
-                "black.png",
-                "blue.png",
-                "brown.png",
-                "cyan.png",
-                "gray.png",
-                "green.png",
-                "light_blue.png",
-                "light_gray.png",
-                "lime.png",
-                "magenta.png",
-                "orange.png",
-                "pink.png",
-                "purple.png",
-                "red.png",
-                "white.png",
-                "yellow.png"
-        };
-
-        for (String bedName : bedNames) {
-            Path bedPath = bedsPath.resolve(bedName);
+        for (String name : new String[] {
+                "black",
+                "blue",
+                "brown",
+                "cyan",
+                "gray",
+                "green",
+                "light_blue",
+                "light_gray",
+                "lime",
+                "magenta",
+                "orange",
+                "pink",
+                "purple",
+                "red",
+                "white",
+                "yellow"
+        }) {
+            Path bedPath = bedsPath.resolve(name + ".png");
             if (!bedPath.toFile().exists())
                 continue;
 
@@ -91,6 +94,8 @@ public class EntityConverter extends Converter {
 
             // Bed Left Side Bottom | Bed Bottom | Bed Right Side Bottom | Bed Planks Bottom
             converter.subImageSized(0, 28, 44, 16, 0, 22);
+
+            // TODO: Feet ;)
 
             converter.store();
         }

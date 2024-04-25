@@ -1,9 +1,11 @@
 package com.agentdid127.resourcepack.bedrock.pack;
 
 import com.agentdid127.resourcepack.library.utilities.Logger;
-import com.agentdid127.resourcepack.library.Util;
+import com.agentdid127.resourcepack.library.utilities.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
 import com.agentdid127.resourcepack.library.utilities.BomDetector;
+import com.agentdid127.resourcepack.library.utilities.FileUtil;
+
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -44,7 +46,7 @@ public class BZipPack extends Pack {
 		public void setup() throws IOException {
 			if (pack.getWorkingPath().toFile().exists()) {
 				Logger.log("  Deleting existing conversion");
-				Util.deleteDirectoryAndContents(pack.getWorkingPath());
+				FileUtil.deleteDirectoryAndContents(pack.getWorkingPath());
 			}
 
 			Path convertedZipPath = getConvertedZipPath();
@@ -64,7 +66,6 @@ public class BZipPack extends Pack {
 			}
 
 			bomRemover(pack.getWorkingPath());
-			return;
 		}
 
 		/**
@@ -80,14 +81,14 @@ public class BZipPack extends Pack {
 				ZipParameters parameters = new ZipParameters();
 				parameters.setIncludeRootFolder(false);
 				zipFile.createSplitZipFileFromFolder(pack.getWorkingPath().toFile(), parameters, false, 65536);
-				Util.renameFile(getConvertedZipPath(), pack.getWorkingPath().getFileName() + ".mcpack");
+				FileUtil.renameFile(getConvertedZipPath(), pack.getWorkingPath().getFileName() + ".mcpack");
 				zipFile.close();
 			} catch (ZipException e) {
 				Util.propagate(e);
 			}
 
 			Logger.log("  Deleting working directory");
-			Util.deleteDirectoryAndContents(pack.getWorkingPath());
+			FileUtil.deleteDirectoryAndContents(pack.getWorkingPath());
 		}
 
 		static void bomRemover(Path workingPath) throws IOException {

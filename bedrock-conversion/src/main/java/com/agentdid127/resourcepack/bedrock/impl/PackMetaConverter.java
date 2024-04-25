@@ -2,16 +2,14 @@ package com.agentdid127.resourcepack.bedrock.impl;
 
 import com.agentdid127.resourcepack.library.Converter;
 import com.agentdid127.resourcepack.library.PackConverter;
-import com.agentdid127.resourcepack.library.Util;
 import com.agentdid127.resourcepack.library.pack.Pack;
+import com.agentdid127.resourcepack.library.utilities.JsonUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.UUID;
 
 public class PackMetaConverter extends Converter {
@@ -27,9 +25,11 @@ public class PackMetaConverter extends Converter {
 
 		Path manifestPath = pack.getWorkingPath().resolve("manifest.json");
 
-		JsonObject json = Util.readJson(packConverter.getGson(), packMetaPath);
-		JsonObject out = new JsonObject();
+		JsonObject json = JsonUtil.readJson(packConverter.getGson(), packMetaPath);
 
+		// TODO: Use "language" to generate languages.json for texts/
+
+		JsonObject out = new JsonObject();
 		{
 			// format_version
 			out.addProperty("format_version", 2);
@@ -70,8 +70,11 @@ public class PackMetaConverter extends Converter {
 			out.add("modules", modules);
 		}
 
-		Files.write(manifestPath, Collections.singleton(packConverter.getGson().toJson(out)), StandardCharsets.UTF_8);
-
+		JsonUtil.writeJson(packConverter.getGson(), manifestPath, out);
 		packMetaPath.toFile().delete();
+
+		Path packPNG = pack.getWorkingPath().resolve("pack.png");
+		if (packPNG.toFile().exists())
+			Files.move(packPNG, pack.getWorkingPath().resolve("pack_icon.png"));
 	}
 }

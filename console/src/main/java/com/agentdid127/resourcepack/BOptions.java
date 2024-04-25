@@ -2,7 +2,6 @@ package com.agentdid127.resourcepack;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSpec;
-import joptsimple.ValueConverter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
